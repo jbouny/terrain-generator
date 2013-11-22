@@ -31,13 +31,18 @@ var TERRAINGENDEMO =
 		this.ms_Camera.position.set( inParameters.width / 2, Math.max( inParameters.width, inParameters.height ) / 1.5, -inParameters.height / 1.5 );
 		this.ms_Camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 		
+		this.ms_Renderer.shadowMapEnabled = true;
+		this.ms_Renderer.shadowMapSoft = true;
+		
 		// Initialize Orbit control		
 		this.ms_Controls = new THREE.OrbitControls( this.ms_Camera, this.ms_Renderer.domElement );
 		this.ms_Controls.addEventListener( 'change', function() { TERRAINGENDEMO.Display(); } );
 	
 		// Add light
 		var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-		directionalLight.position.set( 0, 1, 0.75 );
+		directionalLight.position.set( 0.5, 0.3, 0.75 );
+		directionalLight.castShadow = true;
+		directionalLight.shadowDarkness = 0.5;
 		this.ms_Scene.add( directionalLight );
 		
 		// Create terrain
@@ -47,7 +52,7 @@ var TERRAINGENDEMO =
 	Load: function( inParameters )
 	{
 		var terrainGeo = TERRAINGEN.Get( inParameters );
-		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors, shading: THREE.FlatShading } );
+		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors /*, shading: THREE.FlatShading*/} );
 		
 		var terrain = new THREE.Mesh( terrainGeo, terrainMaterial );
 		terrain.position.y = - inParameters.depth / 2;
@@ -55,6 +60,8 @@ var TERRAINGENDEMO =
 			this.ms_Scene.remove( this.ms_Terrain );
 		this.ms_Scene.add( terrain );
 		this.ms_Terrain = terrain;
+		this.ms_Terrain.castShadow = true;
+		this.ms_Terrain.receiveShadow = true;
 		this.Display();
 		
 	},

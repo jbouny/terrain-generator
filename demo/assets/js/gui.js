@@ -5,10 +5,16 @@ var GENERATORS =
 	},
 	PostGen: {
 		None: 0,
-		Mountains: 1
+		Mountains: 1,
+		BlackWhite: 2
+	},
+	Filter: {
+		None: 0,
+		Blur: 1
 	},
 	ms_Generators: [ PN_GENERATOR ],
-	ms_Colors: [ null, MOUNTAINS_COLORS ],
+	ms_Colors: [ null, MOUNTAINS_COLORS, BLACKWHITE_COLORS ],
+	ms_Filters: [ null, BLUR_FILTER ],
 };
 
 var GUI =
@@ -28,9 +34,11 @@ var GUI =
 			heightSegments: inParameters.heightSegments,
 			depth: inParameters.depth,
 			param: inParameters.param,
+			filterparam: inParameters.filterparam,
 			
 			generator: GENERATORS.Generator.PerlinNoise,
 			colors: GENERATORS.PostGen.Mountains,
+			filter: GENERATORS.Filter.Blur,
 			
 			heightMap: false,
 			
@@ -64,6 +72,12 @@ var GUI =
 			generatorFolder.add( guiParameters, 'param' ).min(1.1).max(50).step(0.1).name('Parameter').onChange( function( inValue ) {
 				GUI.ms_Parameters.param = inValue;
 			} );
+			generatorFolder.add( guiParameters, 'filter', GENERATORS.Filter ).name('Filter').onChange( function( inValue ) {
+				GUI.ms_Parameters.filter = ( inValue == 0 )? [] : [ GENERATORS.ms_Filters[inValue] ];
+			} );
+			generatorFolder.add( guiParameters, 'filterparam' ).min(0).max(10).step(0.1).name('Filter param').onChange( function( inValue ) {
+				GUI.ms_Parameters.filterparam = inValue;
+			} );
 			generatorFolder.add( guiParameters, 'colors', GENERATORS.PostGen ).name('Colors').onChange( function( inValue ) {
 				GUI.ms_Parameters.postgen = ( inValue == 0 )? [] : [ GENERATORS.ms_Colors[inValue] ];
 			} );
@@ -84,7 +98,6 @@ var GUI =
 	
 	Update: function()
 	{
-		console.log( GUI.ms_Parameters );
 		TERRAINGENDEMO.Load( GUI.ms_Parameters );
 	}
 };

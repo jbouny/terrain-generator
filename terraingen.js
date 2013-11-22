@@ -24,7 +24,7 @@ var TERRAINGEN =
 		{
 			for( var x = 0; x < inNoise.width; ++x )
 			{
-				inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * pixels[id * 4 + 1], scaleZ * ( y + offsetZ ) ) );
+				inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * ( pixels[id * 4 + 1] + Math.random() ), scaleZ * ( y + offsetZ ) ) );
 				++id;
 			}
 		}
@@ -81,6 +81,12 @@ var TERRAINGEN =
 		$( inParameters.canvas ).height( inParameters.heightSegments );
 		
 		var noise = inParameters.generator.Get( inParameters );
+		
+		// Apply filters
+		for( var i = 0; i < inParameters.filter.length; ++i )
+		{
+			inParameters.filter[i].Apply( noise, inParameters );
+		}
 		
 		// Create the corresponding geometry
 		var geometry = this.CreateGeometry( noise, inParameters.depth, inParameters.width, inParameters.height, inParameters.widthSegments, inParameters.heightSegments );

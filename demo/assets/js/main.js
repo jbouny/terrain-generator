@@ -9,12 +9,14 @@ $( function() {
 	
 	var parameters = {
 		generator: PN_GENERATOR,
-		depth: 250,
-		width: 400,
+		depth: 350,
+		width: 600,
 		height: 400,
-		widthSegments: 150,
-		heightSegments: 150,
+		widthSegments: 300,
+		heightSegments: 200,
 		param: 4,
+		filterparam: 3,
+		filter: [ BLUR_FILTER ],
 		postgen: [ MOUNTAINS_COLORS ],
 		canvas: document.getElementById('heightmap')
 	};
