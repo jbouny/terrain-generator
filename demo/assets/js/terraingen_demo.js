@@ -1,4 +1,4 @@
-var PNGDEMO =
+var TERRAINGENDEMO =
 {
 	ms_Canvas: null,
 	ms_Renderer: null,
@@ -6,6 +6,7 @@ var PNGDEMO =
 	ms_Scene: null, 
 	ms_Controls: null,
 	ms_IsDisplaying: false,
+	ms_Terrain: null,
 	
 	Enable: ( function() 
 	{
@@ -17,7 +18,7 @@ var PNGDEMO =
 		catch( e ) { return false; } 
 	} )(),
 	
-	Initialize: function( inIdCanvas, inDepth, inWidth, inHeight, inWidthSegments, inHeightSegments )
+	Initialize: function( inIdCanvas, inParameters )
 	{
 		this.ms_Canvas = $( '#'+inIdCanvas );
 		
@@ -27,31 +28,33 @@ var PNGDEMO =
 		this.ms_Scene = new THREE.Scene();
 		
 		this.ms_Camera = new THREE.PerspectiveCamera( 55.0, Window.ms_Width / Window.ms_Height, 0.01, 10000 );
-		this.ms_Camera.position.set( inWidth / 2, -inHeight / 1.5, Math.max( inWidth, inHeight ) / 1.5 );
-		this.ms_Camera.up = new THREE.Vector3( 0, 0, 1 );
+		this.ms_Camera.position.set( inParameters.width / 2, Math.max( inParameters.width, inParameters.height ) / 1.5, -inParameters.height / 1.5 );
 		this.ms_Camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 		
-		// Initialize Trackball control		
-		this.ms_Controls = new THREE.TrackballControls( this.ms_Camera );
-		this.ms_Controls.staticMoving = true;
-		this.ms_Controls.panSpeed = 0.8;
-		this.ms_Controls.addEventListener( 'change', function() { PNGDEMO.Display(); } );
+		// Initialize Orbit control		
+		this.ms_Controls = new THREE.OrbitControls( this.ms_Camera, this.ms_Renderer.domElement );
+		this.ms_Controls.addEventListener( 'change', function() { TERRAINGENDEMO.Display(); } );
 	
 		// Add light
-		this.ms_Scene.add( this.CreatePointLight( 0xffffff, inWidth, inHeight, Math.max( inWidth, inHeight ) * 2 ) );
+		var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+		directionalLight.position.set( 0, 1, 0.75 );
+		this.ms_Scene.add( directionalLight );
 		
 		// Create terrain
-		var terrainGeo = PNGENERATOR.Get( inDepth, inWidth, inHeight, inWidthSegments, inHeightSegments );
-		var terrainMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
-		var terrain = new THREE.Mesh( terrainGeo, terrainMaterial );
-		this.ms_Scene.add( terrain );
+		this.Load( inParameters );
 	},
 	
-	CreatePointLight: function( inColor, inX, inY, inZ )
+	Load: function( inParameters )
 	{
-		var aLight = new THREE.PointLight( inColor, 1, 100 );
-		aLight.position.set( inX, inY, inZ );
-		return aLight;
+		var terrainGeo = TERRAINGEN.Get( inParameters );
+		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors, shading: THREE.FlatShading } );
+		
+		var terrain = new THREE.Mesh( terrainGeo, terrainMaterial );
+		if( this.ms_Terrain != null )
+			this.ms_Scene.remove( this.ms_Terrain );
+		this.ms_Scene.add( terrain );
+		this.ms_Terrain = terrain;
+		
 	},
 	
 	Display: function()
@@ -70,7 +73,6 @@ var PNGDEMO =
 		this.ms_Camera.updateProjectionMatrix();
 		this.ms_Renderer.setSize( inWidth, inHeight );
 		this.ms_Canvas.html( this.ms_Renderer.domElement );
-		this.ms_Controls.handleResize();
 		this.Display();
 	}
 };

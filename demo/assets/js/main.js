@@ -1,15 +1,26 @@
 function MainLoop()
 {
-	PNGDEMO.Update();
-	setTimeout( MainLoop, 1000 / 60 );
+	requestAnimationFrame( MainLoop );
+	TERRAINGENDEMO.Update();
 }
 
 $( function() {
 	WINDOW.Initialize();
-	PNGDEMO.Initialize( 'canvas-3d', 4, 10, 10, 200, 200 );
 	
-	WINDOW.ResizeCallback = function( inWidth, inHeight ) { PNGDEMO.Resize( inWidth, inHeight ); };
-	PNGDEMO.Resize( WINDOW.ms_Width, WINDOW.ms_Height );
+	var parameters = {
+		generator: PN_GENERATOR,
+		depth: 80,
+		width: 200,
+		height: 200,
+		widthSegments: 100,
+		heightSegments: 100,
+		postgen: [ MOUNTAINS_COLORS ]
+	};
+	
+	TERRAINGENDEMO.Initialize( 'canvas-3d', parameters );
+	
+	WINDOW.ResizeCallback = function( inWidth, inHeight ) { TERRAINGENDEMO.Resize( inWidth, inHeight ); };
+	TERRAINGENDEMO.Resize( WINDOW.ms_Width, WINDOW.ms_Height );
 	
 	MainLoop();
 } );
