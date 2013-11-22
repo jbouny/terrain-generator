@@ -2,25 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Perlin Noise Generator - Jérémy BOUNY</title>
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<title>Terrain Generator - Jérémy BOUNY</title>
 		<link href="assets/css/style.css" rel="stylesheet">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	</head>
 
-	<body>		
-		<!--<div id="selector">
-			<table>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</table>
-		</div>-->
+	<body>
+		<canvas id="heightmap"></canvas>
 	
 		<div id="canvas-3d" class="viewer"></div>
 		
@@ -28,10 +18,12 @@
 		<script src="assets/libs/jquery.min.js"></script>
 		<script src="assets/libs/three.min.js"></script>
 		<script src="assets/libs/three/OrbitControls.js"></script>
+		<script src="assets/libs/dat.gui.min.js"></script>
 		
 		<script src="../generators/perlinnoise.js"></script>
 		<script src="../colors/mountains.js"></script>
 		<script src="../terraingen.js"></script>
+		<script src="assets/js/gui.js"></script>
 		<script src="assets/js/window.js"></script>
 		<script src="assets/js/terraingen_demo.js"></script>
 		<script src="assets/js/main.js"></script>

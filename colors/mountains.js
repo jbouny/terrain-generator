@@ -1,14 +1,13 @@
-
 var MOUNTAINS_COLORS =
 {
 	Apply: function( inGeometry, inParameters )
 	{
-		var step = 5;
+		var step = 8;
 		
 		for( var i = 0; i < inGeometry.faces.length; i+=2 )
 		{
 			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
-				depth = Math.round( step * vertex.y / inParameters.depth ) / step,
+				depth = 0.1 + 0.9 * Math.round( step * vertex.y / inParameters.depth ) / step,
 				r = 255 * depth * depth,
 				g = 255 * depth,
 				b = 255 * depth * depth * depth,

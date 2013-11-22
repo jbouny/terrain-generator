@@ -4,7 +4,7 @@ var TERRAINGEN =
 	{
 		var canvas = document.createElement( "canvas" );
 		canvas.width = inWidth;
-		canvas. height = inHeight;
+		canvas.height = inHeight;
 		return canvas;
 	},
 	
@@ -72,6 +72,13 @@ var TERRAINGEN =
 		inParameters.widthSegments = inParameters.widthSegments || 100;
 		inParameters.heightSegments = inParameters.heightSegments || 100;
 		inParameters.postgen = inParameters.postgen || [];
+		
+		if( typeof inParameters.canvas == 'undefined' )
+			inParameters.canvas = this.CreateCanvas( inParameters.width, inParameters.height );
+		inParameters.canvas.width = inParameters.widthSegments;
+		inParameters.canvas.height = inParameters.heightSegments;
+		$( inParameters.canvas ).width( inParameters.widthSegments );
+		$( inParameters.canvas ).height( inParameters.heightSegments );
 		
 		var noise = inParameters.generator.Get( inParameters );
 		

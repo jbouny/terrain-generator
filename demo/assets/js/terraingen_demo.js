@@ -50,10 +50,12 @@ var TERRAINGENDEMO =
 		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors, shading: THREE.FlatShading } );
 		
 		var terrain = new THREE.Mesh( terrainGeo, terrainMaterial );
+		terrain.position.y = - inParameters.depth / 2;
 		if( this.ms_Terrain != null )
 			this.ms_Scene.remove( this.ms_Terrain );
 		this.ms_Scene.add( terrain );
 		this.ms_Terrain = terrain;
+		this.Display();
 		
 	},
 	

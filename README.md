@@ -1,12 +1,13 @@
-Perlin Noise Generator for Three.js
+Terrain Generator for Three.js
 ============
 
-A Perlin Noise generator that provide as output a geometry for Three.js.
+A Terrain generator that provide as output a geometry for Three.js.
+
+### Features
+
+Noise generators :
+- Perlin Noise
 
 ### Demo
 
-http://jeremybouny.fr/perlin-noise/demo/
-
-### Screenshot
-
-![Alt text](/screenshots/perlin-noise1.jpg "Example of a 3D terrain")
+http://jeremybouny.fr/terrain-generator/demo/

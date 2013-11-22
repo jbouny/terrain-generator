@@ -1,8 +1,5 @@
-
 var PN_GENERATOR =
-{
-	ms_Canvas: null,
-	
+{	
 	RandomNoise: function( inCanvas, inX, inY, inWidth, inHeight, inAlpha ) 
 	{
 		inX = inX || 0;
@@ -28,44 +25,39 @@ var PN_GENERATOR =
 		return inCanvas;
 	},
 
-	PerlinNoise: function( inWidth, inHeight )
+	PerlinNoise: function( inParameters )
 	{
 		/**
-		 * This part is based on a snippest :
+		 * This part is based on the snippest :
 		 * https://gist.github.com/donpark/1796361
 		 */
-		// Generate the noise with a 2d canvas
-		this.ms_Canvas.width = inWidth;
-		this.ms_Canvas.height = inHeight;
 		
-		var noise = this.RandomNoise( TERRAINGEN.CreateCanvas( inWidth, inHeight ) );
-		var context = this.ms_Canvas.getContext("2d");
+		var noise = this.RandomNoise( TERRAINGEN.CreateCanvas( inParameters.width, inParameters.height ) );
+		var context = inParameters.canvas.getContext("2d");
 		context.save();
     
 		/* Scale random iterations onto the canvas to generate Perlin noise. */
-		for( var size = 4; size <= noise.width; size *= 3 ) 
+		for( var size = 4; size <= noise.width; size *= inParameters.param ) 
 		{
 			var x = ( Math.random() * ( noise.width - size ) ) | 0,
 				y = ( Math.random() * ( noise.height - size ) ) | 0;
 			context.globalAlpha = 4 / size;
-			context.drawImage( noise, x, y, size, size, 0, 0, inWidth, inHeight );
+			context.drawImage( noise, x, y, size, size, 0, 0, inParameters.width, inParameters.height );
 		}
  
 		context.restore();
 		
-		return this.ms_Canvas;
+		return inParameters.canvas;
 	},
 
 	Get: function( inParameters )
 	{
 		var geometry = new THREE.Geometry();
 		
-		if( typeof inParameters.canvas == 'undefined' )
-			inParameters.canvas = TERRAINGEN.CreateCanvas( inParameters.width, inParameters.height );
-		this.ms_Canvas = inParameters.canvas;
+		inParameters.param = Math.max( 1.1, inParameters.param );
 		
 		// Create the Perlin Noise
-		var noise = this.PerlinNoise( inParameters.widthSegments, inParameters.heightSegments );
+		var noise = this.PerlinNoise( inParameters );
 		
 		return noise;
 	}
