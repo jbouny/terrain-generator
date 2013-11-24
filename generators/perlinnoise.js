@@ -1,27 +1,19 @@
 var PN_GENERATOR =
 {	
 	RandomNoise: function( inCanvas, inX, inY, inWidth, inHeight, inAlpha ) 
-	{
-		inX = inX || 0;
-		inY = inY || 0;
-		inWidth = inWidth || inCanvas.width;
-		inHeight = inHeight || inCanvas.height;
-		inAlpha = inAlpha || 255;
-		
+	{		
 		var g = inCanvas.getContext("2d"),
-			imageData = g.getImageData( inX, inY, inWidth, inHeight ),
+			imageData = g.getImageData( 0, 0, inCanvas.width, inCanvas.height ),
 			random = Math.random,
-			pixels = imageData.data,
-			n = pixels.length,
-			i = 0;
-			
-		while (i < n) 
+			pixels = imageData.data;
+		
+		for( var i = 0; i < pixels.length; i += 4 )
 		{
-			pixels[i++] = pixels[i++] = pixels[i++] = ( random() * 256 ) | 0;
-			pixels[i++] = inAlpha;
+			pixels[i] = pixels[i+1] = pixels[i+2] = ( random() * 256 ) | 0;
+			pixels[i+3] = 255;
 		}
 		
-		g.putImageData( imageData, inX, inY );
+		g.putImageData( imageData, 0, 0 );
 		return inCanvas;
 	},
 
@@ -32,7 +24,7 @@ var PN_GENERATOR =
 		 * https://gist.github.com/donpark/1796361
 		 */
 		
-		var noise = this.RandomNoise( TERRAINGEN.CreateCanvas( inParameters.width, inParameters.height ) );
+		var noise = this.RandomNoise( TERRAINGEN.CreateCanvas( inParameters.widthSegments, inParameters.heightSegments ) );
 		var context = inParameters.canvas.getContext("2d");
 		context.save();
     
@@ -42,7 +34,7 @@ var PN_GENERATOR =
 			var x = ( Math.random() * ( noise.width - size ) ) | 0,
 				y = ( Math.random() * ( noise.height - size ) ) | 0;
 			context.globalAlpha = 4 / size;
-			context.drawImage( noise, x, y, size, size, 0, 0, inParameters.width, inParameters.height );
+			context.drawImage( noise, x, y, size, size, 0, 0, inParameters.widthSegments, inParameters.heightSegments );
 		}
  
 		context.restore();

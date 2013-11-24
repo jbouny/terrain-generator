@@ -24,7 +24,7 @@ var TERRAINGEN =
 		{
 			for( var x = 0; x < inNoise.width; ++x )
 			{
-				inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * ( pixels[id * 4 + 1] + Math.random() ), scaleZ * ( y + offsetZ ) ) );
+				inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * ( pixels[id * 4 + 1] ), scaleZ * ( y + offsetZ ) ) );
 				++id;
 			}
 		}
@@ -72,6 +72,8 @@ var TERRAINGEN =
 		inParameters.widthSegments = inParameters.widthSegments || 100;
 		inParameters.heightSegments = inParameters.heightSegments || 100;
 		inParameters.postgen = inParameters.postgen || [];
+		inParameters.effect = inParameters.effect || [];
+		inParameters.filter = inParameters.filter || [];
 		
 		if( typeof inParameters.canvas == 'undefined' )
 			inParameters.canvas = this.CreateCanvas( inParameters.width, inParameters.height );
@@ -90,6 +92,12 @@ var TERRAINGEN =
 		
 		// Create the corresponding geometry
 		var geometry = this.CreateGeometry( noise, inParameters.depth, inParameters.width, inParameters.height, inParameters.widthSegments, inParameters.heightSegments );
+		
+		// Apply vertices effect
+		for( var i = 0; i < inParameters.effect.length; ++i )
+		{
+			inParameters.effect[i].Apply( geometry, inParameters );
+		}
 		
 		// Apply post algorithm as color generation
 		for( var i = 0; i < inParameters.postgen.length; ++i )

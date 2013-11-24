@@ -6,7 +6,7 @@ var BLACKWHITE_COLORS =
 		{
 			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
 				depth = vertex.y / inParameters.depth,
-				r = 255 * depth,
+				r = 255 * depth * depth,
 				g = r,
 				b = r,
 				color = new THREE.Color( (r << 16) + (g << 8) + b );

@@ -40,7 +40,7 @@ var TERRAINGENDEMO =
 	
 		// Add light
 		var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-		directionalLight.position.set( 0.5, 0.3, 0.75 );
+		directionalLight.position.set( 0.5, 0.7, 0.75 );
 		directionalLight.castShadow = true;
 		directionalLight.shadowDarkness = 0.5;
 		this.ms_Scene.add( directionalLight );
@@ -52,7 +52,7 @@ var TERRAINGENDEMO =
 	Load: function( inParameters )
 	{
 		var terrainGeo = TERRAINGEN.Get( inParameters );
-		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors /*, shading: THREE.FlatShading*/} );
+		var terrainMaterial = new THREE.MeshPhongMaterial( { vertexColors: THREE.VertexColors , shading: ( GUI.ms_SmoothShading? THREE.SmoothShading : THREE.FlatShading ) } );
 		
 		var terrain = new THREE.Mesh( terrainGeo, terrainMaterial );
 		terrain.position.y = - inParameters.depth / 2;

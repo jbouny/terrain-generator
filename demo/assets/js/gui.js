@@ -6,26 +6,34 @@ var GENERATORS =
 	PostGen: {
 		None: 0,
 		Mountains: 1,
-		BlackWhite: 2
+		GameMountains: 2,
+		BlackWhite: 3
 	},
 	Filter: {
 		None: 0,
-		Blur: 1
+		Blur: 1,
+		GameTerrain: 2,
+	},
+	Effect: {
+		None: 0,
+		Destructure: 1,
+		DepthNoise: 2
 	},
 	ms_Generators: [ PN_GENERATOR ],
-	ms_Colors: [ null, MOUNTAINS_COLORS, BLACKWHITE_COLORS ],
-	ms_Filters: [ null, BLUR_FILTER ],
+	ms_Colors: [ null, MOUNTAINS_COLORS, MOUNTAINS2_COLORS, BLACKWHITE_COLORS ],
+	ms_Filters: [ null, BLUR_FILTER, GAMETERRAIN_FILTER ],
+	ms_Effects: [ null, DESTRUCTURE_EFFECT, DEPTHNOISE_EFFECT ],
 };
 
 var GUI =
 {
-	ms_Parameters: {
-	},
+	ms_SmoothShading: false,
+	ms_Parameters: {},
 
 	Initialize: function( inParameters )
 	{
 		gui = new dat.GUI();
-		GUI.ms_Parameters = inParameters;
+		this.ms_Parameters = inParameters;
 		guiParameters = 
 		{
 			width: inParameters.width,
@@ -39,8 +47,10 @@ var GUI =
 			generator: GENERATORS.Generator.PerlinNoise,
 			colors: GENERATORS.PostGen.Mountains,
 			filter: GENERATORS.Filter.Blur,
+			effect: GENERATORS.Effect.Destructure,
 			
 			heightMap: false,
+			smoothShading: false,
 			
 			github: function() {},
 			
@@ -69,7 +79,7 @@ var GUI =
 			generatorFolder.add( guiParameters, 'generator', GENERATORS.Generator ).name('Generator').onChange( function( inValue ) {
 				GUI.ms_Parameters.generator = GENERATORS.ms_Generators[inValue];
 			} );
-			generatorFolder.add( guiParameters, 'param' ).min(1.1).max(50).step(0.1).name('Parameter').onChange( function( inValue ) {
+			generatorFolder.add( guiParameters, 'param' ).min(1.1).max(10).step(0.1).name('Parameter').onChange( function( inValue ) {
 				GUI.ms_Parameters.param = inValue;
 			} );
 			generatorFolder.add( guiParameters, 'filter', GENERATORS.Filter ).name('Filter').onChange( function( inValue ) {
@@ -77,6 +87,9 @@ var GUI =
 			} );
 			generatorFolder.add( guiParameters, 'filterparam' ).min(0).max(10).step(0.1).name('Filter param').onChange( function( inValue ) {
 				GUI.ms_Parameters.filterparam = inValue;
+			} );
+			generatorFolder.add( guiParameters, 'effect', GENERATORS.Effect ).name('Effect').onChange( function( inValue ) {
+				GUI.ms_Parameters.effect = ( inValue == 0 )? [] : [ GENERATORS.ms_Effects[inValue] ];
 			} );
 			generatorFolder.add( guiParameters, 'colors', GENERATORS.PostGen ).name('Colors').onChange( function( inValue ) {
 				GUI.ms_Parameters.postgen = ( inValue == 0 )? [] : [ GENERATORS.ms_Colors[inValue] ];
@@ -90,6 +103,9 @@ var GUI =
 				else
 					$('#heightmap').hide();
 			} );
+			otherFolder.add( guiParameters, 'smoothShading' ).name('Smooth shading').onChange( function( inValue ) {
+				GUI.ms_SmoothShading = inValue;
+			} );
 			otherFolder.add( guiParameters, 'github' ).name('<a href="https://github.com/jbouny/terrain-generator" target="_blank">GitHub</a>');
 		otherFolder.open();
 		
@@ -98,6 +114,6 @@ var GUI =
 	
 	Update: function()
 	{
-		TERRAINGENDEMO.Load( GUI.ms_Parameters );
+		TERRAINGENDEMO.Load( this.ms_Parameters );
 	}
 };

@@ -2,12 +2,13 @@ var MOUNTAINS_COLORS =
 {
 	Apply: function( inGeometry, inParameters )
 	{
-		var step = 1000;
+		var step = 1000,
+			random = Math.random;
 		
 		for( var i = 0; i < inGeometry.faces.length; i+=2 )
 		{
 			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
-				depth = 0.1 + 0.9 * Math.round( step * vertex.y / inParameters.depth ) / step,
+				depth = Math.min( 1, 0.2 + ( 0.85 + 0.3 * random() ) * 0.8 * Math.round( step * vertex.y / inParameters.depth ) / step ),
 				r = 255 * depth * depth,
 				g = 255 * depth,
 				b = 255 * depth * depth * depth,
