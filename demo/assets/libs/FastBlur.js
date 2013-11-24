@@ -44,13 +44,10 @@ var mul_table = [ 1,57,41,21,203,34,97,73,227,91,149,62,105,45,39,137,241,107,3,
 var shg_table = [0,9,10,10,14,12,14,14,16,15,16,15,16,15,15,17,18,17,12,18,16,17,17,19,19,18,19,18,18,19,19,19,20,19,20,20,20,20,20,20,15,20,19,20,20,20,21,21,21,20,20,20,21,18,21,21,21,21,20,21,17,21,21,21,22,22,21,22,22,21,22,21,19,22,22,19,20,22,22,21,21,21,22,22,22,18,22,22,21,22,22,23,22,20,23,22,22,23,23,21,19,21,21,21,23,23,23,22,23,23,21,23,22,23,18,22,23,20,22,23,23,23,21,22,20,22,21,22,24,24,24,24,24,22,21,24,23,23,24,21,24,23,24,22,24,24,22,24,24,22,23,24,24,24,20,23,22,23,24,24,24,24,24,24,24,23,21,23,22,23,24,24,24,22,24,24,24,23,22,24,24,25,23,25,25,23,24,25,25,24,22,25,25,25,24,23,24,25,25,25,25,25,25,25,25,25,25,25,25,23,25,23,24,25,25,25,25,25,25,25,25,25,24,22,25,25,23,25,25,20,24,25,24,25,25,22,24,25,24,25,24,25,25,24,25,25,25,25,22,25,25,25,24,25,24,25,18];
 
 		
-function boxBlurImage( imageID, canvasID, radius, blurAlphaChannel, iterations ){
+function boxBlurImage( img, canvas, radius, blurAlphaChannel, iterations ){
 			
- 	var img = document.getElementById( imageID );
 	var w = img.naturalWidth;
     var h = img.naturalHeight;
-       
-	var canvas = document.getElementById( canvasID );
       
     canvas.style.width  = w + "px";
     canvas.style.height = h + "px";
@@ -73,7 +70,7 @@ function boxBlurImage( imageID, canvasID, radius, blurAlphaChannel, iterations )
 }
 
 
-function boxBlurCanvasRGBA( id, top_x, top_y, width, height, radius, iterations ){
+function boxBlurCanvasRGBA( canvas, top_x, top_y, width, height, radius, iterations ){
 	if ( isNaN(radius) || radius < 1 ) return;
 	
 	radius |= 0;
@@ -83,7 +80,6 @@ function boxBlurCanvasRGBA( id, top_x, top_y, width, height, radius, iterations 
 	if ( iterations > 3 ) iterations = 3;
 	if ( iterations < 1 ) iterations = 1;
 	
-	var canvas  = document.getElementById( id );
 	var context = canvas.getContext("2d");
 	var imageData;
 	
@@ -221,7 +217,7 @@ function boxBlurCanvasRGBA( id, top_x, top_y, width, height, radius, iterations 
 	
 }
 
-function boxBlurCanvasRGB( id, top_x, top_y, width, height, radius, iterations ){
+function boxBlurCanvasRGB( canvas, top_x, top_y, width, height, radius, iterations ){
 	if ( isNaN(radius) || radius < 1 ) return;
 	
 	radius |= 0;
@@ -231,7 +227,6 @@ function boxBlurCanvasRGB( id, top_x, top_y, width, height, radius, iterations )
 	if ( iterations > 3 ) iterations = 3;
 	if ( iterations < 1 ) iterations = 1;
 	
-	var canvas  = document.getElementById( id );
 	var context = canvas.getContext("2d");
 	var imageData;
 	
