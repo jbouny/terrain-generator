@@ -27,14 +27,16 @@ var PN_GENERATOR =
 		var noise = this.RandomNoise( TERRAINGEN.CreateCanvas( inParameters.widthSegments, inParameters.heightSegments ) );
 		var context = inParameters.canvas.getContext("2d");
 		context.save();
+		
+		var ratio = inParameters.widthSegments / inParameters.heightSegments;
     
 		/* Scale random iterations onto the canvas to generate Perlin noise. */
-		for( var size = 4; size <= noise.width; size *= inParameters.param ) 
+		for( var size = 4; size <= noise.height; size *= inParameters.param ) 
 		{
 			var x = ( Math.random() * ( noise.width - size ) ) | 0,
 				y = ( Math.random() * ( noise.height - size ) ) | 0;
 			context.globalAlpha = 4 / size;
-			context.drawImage( noise, x, y, size, size, 0, 0, inParameters.widthSegments, inParameters.heightSegments );
+			context.drawImage( noise, x, y, size * ratio, size, 0, 0, inParameters.widthSegments, inParameters.heightSegments );
 		}
  
 		context.restore();
