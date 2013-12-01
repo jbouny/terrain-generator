@@ -8,6 +8,7 @@ $( function() {
 	WINDOW.Initialize();
 	
 	var parameters = {
+		alea: RAND_MT,
 		generator: PN_GENERATOR,
 		width: 500,
 		height: 500,
@@ -19,7 +20,7 @@ $( function() {
 		filter: [ BLUR_FILTER ],
 		postgen: [ MOUNTAINS_COLORS ],
 		effect: [ DESTRUCTURE_EFFECT ],
-		canvas: document.getElementById('heightmap')
+		canvas: document.getElementById('heightmap'),
 	};
 	
 	TERRAINGENDEMO.Initialize( 'canvas-3d', parameters );

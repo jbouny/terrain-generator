@@ -5,16 +5,15 @@ var DESTRUCTURE_EFFECT =
 		var densityWidth = inParameters.width / inParameters.widthSegments,
 			densityHeight = inParameters.height / inParameters.heightSegments,
 			densityDepth = inParameters.depth / 255,
-			random = Math.random,
 			param = 1;
 		
 		for( var i = 0; i < inGeometry.vertices.length; ++i )
 		{
 			var vertex = inGeometry.vertices[i];
 			
-			vertex.x += random() * densityWidth * param;
-			vertex.y += random() * densityDepth * param;
-			vertex.z += random() * densityHeight * param;
+			vertex.x += inParameters.alea.Random() * densityWidth * param;
+			vertex.y += inParameters.alea.Random() * densityDepth * param;
+			vertex.z += inParameters.alea.Random() * densityHeight * param;
 		}
 	},
 	

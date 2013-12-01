@@ -24,9 +24,7 @@ var MOUNTAINS2_COLORS =
 	},
 	
 	Apply: function( inGeometry, inParameters )
-	{
-		var random = Math.random;
-		
+	{		
 		if( this.ms_Canvas == null )
 			this.GenerateGradient();
 		
@@ -36,8 +34,8 @@ var MOUNTAINS2_COLORS =
 				depth = vertex.y / inParameters.depth,
 				indice = Math.round( depth * 255 );
 
-			var r = this.ms_Gradient[ indice * 4 ] * ( 1 + 2 * random() * Math.max( 0, ( 0.3 - depth ) ) ),
-				g = Math.min( 255, this.ms_Gradient[ indice * 4 + 1 ] * ( 1 + 2 * random() * Math.max( 0, ( 0.3 - depth ) ) ) ),
+			var r = this.ms_Gradient[ indice * 4 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ),
+				g = Math.min( 255, this.ms_Gradient[ indice * 4 + 1 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ) ),
 				b = this.ms_Gradient[ indice * 4 + 2 ];
 			
 			var color = new THREE.Color( (r << 16) + (g << 8) + b );

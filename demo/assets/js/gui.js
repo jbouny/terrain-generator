@@ -1,5 +1,9 @@
 var GENERATORS =
 {
+	Random: {
+		Default: 0,
+		MersenneTwister: 1
+	},
 	Generator: {
 		PerlinNoise: 0
 	},
@@ -19,6 +23,7 @@ var GENERATORS =
 		Destructure: 1,
 		DepthNoise: 2
 	},
+	ms_Randoms: [ RAND_DEFAULT, RAND_MT ],
 	ms_Generators: [ PN_GENERATOR ],
 	ms_Colors: [ null, MOUNTAINS_COLORS, MOUNTAINS2_COLORS, BLACKWHITE_COLORS ],
 	ms_Filters: [ null, BLUR_FILTER, GAMETERRAIN_FILTER ],
@@ -44,6 +49,7 @@ var GUI =
 			param: inParameters.param,
 			filterparam: inParameters.filterparam,
 			
+			alea: GENERATORS.Random.MersenneTwister,
 			generator: GENERATORS.Generator.PerlinNoise,
 			colors: GENERATORS.PostGen.Mountains,
 			filter: GENERATORS.Filter.Blur,
@@ -76,7 +82,10 @@ var GUI =
 		terrainFolder.open();
 		
 		var generatorFolder = gui.addFolder('Generator');
-			generatorFolder.add( guiParameters, 'generator', GENERATORS.Generator ).name('Generator').onChange( function( inValue ) {
+			generatorFolder.add( guiParameters, 'alea', GENERATORS.Random ).name('Random').onChange( function( inValue ) {
+				GUI.ms_Parameters.alea = GENERATORS.ms_Randoms[inValue];
+			} );
+			generatorFolder.add( guiParameters, 'generator', GENERATORS.Generator ).name('Noise').onChange( function( inValue ) {
 				GUI.ms_Parameters.generator = GENERATORS.ms_Generators[inValue];
 			} );
 			generatorFolder.add( guiParameters, 'param' ).min(1.1).max(10).step(0.1).name('Parameter').onChange( function( inValue ) {
