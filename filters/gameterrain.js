@@ -17,12 +17,11 @@ var GAMETERRAIN_FILTER =
 		gradient.addColorStop( 0.08, '#222' ); 
 		gradient.addColorStop( 0.12, '#222' );    
 		gradient.addColorStop( 0.3, 'rgba(0, 0, 0, 0.7)' );   
-		gradient.addColorStop( 0.6, 'rgba(0, 0, 0, 0.5)' );
-		gradient.addColorStop( 0.7, 'rgba(0, 0, 0, 0.05)' );
+		gradient.addColorStop( 0.6, 'rgba(0, 0, 0, 0.3)' );
 		gradient.addColorStop( 0.8, 'rgba(0, 0, 0, 0.1)' );
-		gradient.addColorStop( 0.9, 'rgba(255, 255, 255, 0.3)' );
-		gradient.addColorStop( 0.95, 'rgba(255, 255, 255, 0.4)' );
-		gradient.addColorStop( 1, 'rgba(0, 0, 0, 0.5)' );
+		gradient.addColorStop( 0.9, 'rgba(255, 255, 255, 0.1)' );
+		gradient.addColorStop( 0.95, 'rgba(255, 255, 255, 0.1)' );
+		gradient.addColorStop( 1, 'rgba(0, 0, 0, 0.3)' );
 		
 		context.fillStyle = gradient;
 		context.rect( 0, 0, inCanvas.width, inCanvas.height );
