@@ -17,6 +17,7 @@ var GENERATORS =
 		None: 0,
 		Blur: 1,
 		GameTerrain: 2,
+		Circle: 3,
 	},
 	Effect: {
 		None: 0,
@@ -26,7 +27,7 @@ var GENERATORS =
 	ms_Randoms: [ RAND_DEFAULT, RAND_MT ],
 	ms_Generators: [ PN_GENERATOR ],
 	ms_Colors: [ null, MOUNTAINS_COLORS, MOUNTAINS2_COLORS, BLACKWHITE_COLORS ],
-	ms_Filters: [ null, BLUR_FILTER, GAMETERRAIN_FILTER ],
+	ms_Filters: [ null, BLUR_FILTER, GAMETERRAIN_FILTER, CIRCLE_FILTER ],
 	ms_Effects: [ null, DESTRUCTURE_EFFECT, DEPTHNOISE_EFFECT ],
 };
 
