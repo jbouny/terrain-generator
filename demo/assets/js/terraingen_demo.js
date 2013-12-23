@@ -36,7 +36,6 @@ var TERRAINGENDEMO =
 		
 		// Initialize Orbit control		
 		this.ms_Controls = new THREE.OrbitControls( this.ms_Camera, this.ms_Renderer.domElement );
-		this.ms_Controls.addEventListener( 'change', function() { TERRAINGENDEMO.Display(); } );
 	
 		// Add light
 		var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -62,6 +61,7 @@ var TERRAINGENDEMO =
 		this.ms_Terrain = terrain;
 		this.ms_Terrain.castShadow = true;
 		this.ms_Terrain.receiveShadow = true;
+		
 		this.Display();
 		
 	},
@@ -74,6 +74,7 @@ var TERRAINGENDEMO =
 	Update: function()
 	{
 		this.ms_Controls.update();
+		this.Display();
 	},
 	
 	Resize: function( inWidth, inHeight )
