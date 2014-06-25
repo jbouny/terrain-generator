@@ -40,7 +40,6 @@ var GUI =
 	{
 		gui = new dat.GUI();
 		this.ms_Parameters = inParameters;
-		console.log( GENERATORS.Effect );
 		guiParameters = 
 		{
 			width: inParameters.width,

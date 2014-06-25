@@ -49,7 +49,6 @@ var TERRAINGEN =
 				positions[id ++] = scaleZ * ( y + offsetZ );
 			}
 		}
-		console.log( ( id ) / 3 );
 	},
 	
 	/**
@@ -78,7 +77,6 @@ var TERRAINGEN =
 				indices[id ++] = ( y + 1 ) * inWidth + x;
 			}
 		}
-		console.log( ( id ) / 3 );
 	},
 	
 	/**
@@ -99,10 +97,6 @@ var TERRAINGEN =
 		geometry.addAttribute( 'index', new THREE.Uint32Attribute(indices, 1) );
 		geometry.addAttribute( 'color', new THREE.Float32Attribute(nbPoints, 3) );
 		geometry.addAttribute( 'position', new THREE.Float32Attribute(nbPoints, 3) );
-		
-		console.log( "index: " + geometry.getAttribute( 'index' ).array.length + " / " + indices );
-		console.log( "color: " + geometry.getAttribute( 'color' ).array.length / 3 + " / " + nbPoints );
-		console.log( "position: " + geometry.getAttribute( 'position' ).array.length / 3 + " / " + nbPoints );
 		
 		this.CreateVertices( inNoise, geometry, inDepth, inWidth, inHeight );
 		this.CreateFaces( geometry, inWidthSegments, inHeightSegments );
