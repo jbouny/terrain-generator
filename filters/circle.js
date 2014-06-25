@@ -2,7 +2,6 @@ var CIRCLE_FILTER =
 {
 	Apply: function( inCanvas, inParameters )
 	{
-		
 		var context = inCanvas.getContext( "2d" );
 		
 		// Apply a radial gradient

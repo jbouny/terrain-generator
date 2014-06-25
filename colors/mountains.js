@@ -3,18 +3,16 @@ var MOUNTAINS_COLORS =
 	Apply: function( inGeometry, inParameters )
 	{
 		var step = 1000;
+		var colors = inGeometry.getAttribute( 'color' ).array;
+		var positions = inGeometry.getAttribute( 'position' ).array;
 		
-		for( var i = 0; i < inGeometry.faces.length; i+=2 )
+		for( var i = 0; i < positions.length; i += 3 )
 		{
-			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
-				depth = Math.min( 1, 0.2 + ( 0.85 + 0.3 * inParameters.alea.Random() ) * 0.8 * Math.round( step * vertex.y / inParameters.depth ) / step ),
-				r = 255 * depth * depth,
-				g = 255 * depth,
-				b = 255 * depth * depth * depth,
-				color = new THREE.Color( (r << 16) + (g << 8) + b );
-			
-			inGeometry.faces[i].color = color;
-			inGeometry.faces[i+1].color = color;
+			var depth = Math.min( 1, 0.2 + ( 0.85 + 0.3 * inParameters.alea.Random() ) * 0.8 * Math.round( step * positions[i + 1] / inParameters.depth ) / step );
+				
+			colors[i] = depth * depth;
+			colors[i + 1] = depth;
+			colors[i + 2] = depth * depth * depth;
 		}
 	},
 	

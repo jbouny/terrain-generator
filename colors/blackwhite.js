@@ -1,18 +1,17 @@
 var BLACKWHITE_COLORS =
 {
 	Apply: function( inGeometry, inParameters )
-	{		
-		for( var i = 0; i < inGeometry.faces.length; i+=2 )
+	{
+		var positions = inGeometry.getAttribute( 'position' ).array;
+		var colors = inGeometry.getAttribute( 'color' ).array;
+		
+		for( var i = 0; i < positions.length; i += 3 )
 		{
-			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
-				depth = vertex.y / inParameters.depth,
-				r = 255 * depth * depth,
-				g = r,
-				b = r,
-				color = new THREE.Color( (r << 16) + (g << 8) + b );
-			
-			inGeometry.faces[i].color = color;
-			inGeometry.faces[i+1].color = color;
+			var depth = positions[i + 1] / inParameters.depth;
+				
+			colors[i] = depth * depth;
+			colors[i + 1] = colors[i];
+			colors[i + 2] = colors[i];
 		}
 	},
 	

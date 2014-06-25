@@ -12,14 +12,14 @@ $( function() {
 		generator: PN_GENERATOR,
 		width: 500,
 		height: 500,
-		widthSegments: 150,
-		heightSegments: 150,
+		widthSegments: 250,
+		heightSegments: 250,
 		depth: 150,
 		param: 3,
 		filterparam: 1,
 		filter: [ BLUR_FILTER ],
 		postgen: [ MOUNTAINS_COLORS ],
-		effect: [ DESTRUCTURE_EFFECT ],
+		effect: [ DEPTHNOISE_EFFECT ],
 		canvas: document.getElementById('heightmap'),
 	};
 	

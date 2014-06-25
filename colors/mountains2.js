@@ -27,20 +27,18 @@ var MOUNTAINS2_COLORS =
 	{		
 		if( this.ms_Canvas == null )
 			this.GenerateGradient();
-		
-		for( var i = 0; i < inGeometry.faces.length; i+=2 )
-		{
-			var vertex = inGeometry.vertices[inGeometry.faces[i].a],
-				depth = vertex.y / inParameters.depth,
-				indice = Math.round( depth * 255 );
-
-			var r = this.ms_Gradient[ indice * 4 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ),
-				g = Math.min( 255, this.ms_Gradient[ indice * 4 + 1 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ) ),
-				b = this.ms_Gradient[ indice * 4 + 2 ];
 			
-			var color = new THREE.Color( (r << 16) + (g << 8) + b );
-			inGeometry.faces[i].color = color;
-			inGeometry.faces[i+1].color = color;
+		var positions = inGeometry.getAttribute( 'position' ).array;
+		var colors = inGeometry.getAttribute( 'color' ).array;
+			
+		for( var i = 0; i < positions.length; i += 3 )
+		{
+			var depth = positions[i + 1] / inParameters.depth,
+			    indice = Math.round( depth * 255 )
+				
+			colors[i] = this.ms_Gradient[ indice * 4 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ) / 255.0;
+			colors[i + 1] = Math.min( 1, this.ms_Gradient[ indice * 4 + 1 ] * ( 1 + 2 * inParameters.alea.Random() * Math.max( 0, ( 0.3 - depth ) ) ) / 255.0 );
+			colors[i + 2] = this.ms_Gradient[ indice * 4 + 2 ] / 255.0;
 		}
 	},
 	

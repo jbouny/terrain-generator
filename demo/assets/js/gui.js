@@ -40,6 +40,7 @@ var GUI =
 	{
 		gui = new dat.GUI();
 		this.ms_Parameters = inParameters;
+		console.log( GENERATORS.Effect );
 		guiParameters = 
 		{
 			width: inParameters.width,
@@ -52,9 +53,9 @@ var GUI =
 			
 			alea: GENERATORS.Random.MersenneTwister,
 			generator: GENERATORS.Generator.PerlinNoise,
-			colors: GENERATORS.PostGen.Mountains,
-			filter: GENERATORS.Filter.Blur,
-			effect: GENERATORS.Effect.Destructure,
+			colors: GENERATORS.ms_Colors.indexOf( inParameters.postgen[0] ),
+			filter: GENERATORS.ms_Filters.indexOf( inParameters.filter[0] ),
+			effect: GENERATORS.ms_Effects.indexOf( inParameters.effect[0] ),
 			
 			heightMap: false,
 			smoothShading: false,

@@ -26,6 +26,7 @@ var TERRAINGEN =
 	 */
 	CreateVertices: function( inNoise, inGeometry, inDepth, inWidth, inHeight )
 	{
+		var positions = inGeometry.getAttribute( 'position' ).array;
 		var context = inNoise.getContext('2d'),
 			imgData = context.getImageData( 0, 0, inNoise.width, inNoise.height ),
 			pixels = imgData.data,
@@ -33,17 +34,22 @@ var TERRAINGEN =
 			scaleY = inDepth / 255,
 			scaleZ= inHeight / ( inNoise.height - 1 ),
 			id = 0,
+			pixel = 0
 			offsetX = - inNoise.width / 2,
 			offsetZ = - inNoise.height / 2;
 		
+		//for( var y = inNoise.height-1; y >= 0; --y )
 		for( var y = 0; y < inNoise.height; ++y )
 		{
 			for( var x = 0; x < inNoise.width; ++x )
 			{
-				inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * ( pixels[id * 4 + 1] ), scaleZ * ( y + offsetZ ) ) );
-				++id;
+				//inGeometry.vertices.push( new THREE.Vector3( scaleX * ( x + offsetX ), scaleY * ( pixels[id * 4 + 1] ), scaleZ * ( y + offsetZ ) ) );
+				positions[id ++] = scaleX * ( x + offsetX );
+				positions[id ++] = scaleY * ( pixels[ (pixel ++) * 4 + 1] );
+				positions[id ++] = scaleZ * ( y + offsetZ );
 			}
 		}
+		console.log( ( id ) / 3 );
 	},
 	
 	/**
@@ -54,22 +60,25 @@ var TERRAINGEN =
 	 */
 	CreateFaces: function( inGeometry, inWidth, inHeight )
 	{
+		var indices = inGeometry.getAttribute( 'index' ).array;
+		var id = 0;
+		
 		for( var y = 0; y < inHeight - 1; ++y )
 		{
 			for( var x = 0; x < inWidth - 1; ++x )
 			{
-				inGeometry.faces.push( new THREE.Face3( 
-					y * inWidth + x + 1,
-					y * inWidth + x, 
-					( y + 1 ) * inWidth + x
-				) );
-				inGeometry.faces.push( new THREE.Face3( 
-					( y + 1 ) * inWidth + x + 1,
-					y * inWidth + x + 1,
-					( y + 1 ) * inWidth + x
-				) );
+				// First triangle
+				indices[id ++] = y * inWidth + x + 1;
+				indices[id ++] = y * inWidth + x;
+				indices[id ++] = ( y + 1 ) * inWidth + x;
+				
+				// Second triangle
+				indices[id ++] = ( y + 1 ) * inWidth + x + 1;
+				indices[id ++] = y * inWidth + x + 1;
+				indices[id ++] = ( y + 1 ) * inWidth + x;
 			}
 		}
+		console.log( ( id ) / 3 );
 	},
 	
 	/**
@@ -83,7 +92,17 @@ var TERRAINGEN =
 	 */
 	CreateGeometry: function( inNoise, inDepth, inWidth, inHeight, inWidthSegments, inHeightSegments )
 	{
-		var geometry = new THREE.Geometry(); 
+		var geometry = new THREE.BufferGeometry();
+		
+		var nbPoints = inNoise.width * inNoise.height;
+		var indices = ( inNoise.width - 1 ) * ( inNoise.height - 1 ) * 2 * 3 ;
+		geometry.addAttribute( 'index', new THREE.Uint32Attribute(indices, 1) );
+		geometry.addAttribute( 'color', new THREE.Float32Attribute(nbPoints, 3) );
+		geometry.addAttribute( 'position', new THREE.Float32Attribute(nbPoints, 3) );
+		
+		console.log( "index: " + geometry.getAttribute( 'index' ).array.length + " / " + indices );
+		console.log( "color: " + geometry.getAttribute( 'color' ).array.length / 3 + " / " + nbPoints );
+		console.log( "position: " + geometry.getAttribute( 'position' ).array.length / 3 + " / " + nbPoints );
 		
 		this.CreateVertices( inNoise, geometry, inDepth, inWidth, inHeight );
 		this.CreateFaces( geometry, inWidthSegments, inHeightSegments );
@@ -99,18 +118,25 @@ var TERRAINGEN =
 		// Apply vertices effect
 		for( var i = 0; i < inParameters.effect.length; ++i )
 		{
-			inParameters.effect[i].Apply( geometry, inParameters );
+			if( null !== inParameters.effect[i] )
+				inParameters.effect[i].Apply( geometry, inParameters );
 		}
 		
 		// Apply post algorithm as color generation
 		for( var i = 0; i < inParameters.postgen.length; ++i )
 		{
-			inParameters.postgen[i].Apply( geometry, inParameters );
+			if( null !== inParameters.postgen[i] )
+				inParameters.postgen[i].Apply( geometry, inParameters );
 		}
 		
         geometry.computeFaceNormals();
         geometry.computeVertexNormals();
-		
+	
+		// Update the geometry
+		geometry.attributes.color.needsUpdate = true;
+		geometry.attributes.index.needsUpdate = true;
+		geometry.attributes.position.needsUpdate = true;
+
 		return geometry;
 	},
 	
@@ -147,7 +173,8 @@ var TERRAINGEN =
 		// Apply filters
 		for( var i = 0; i < inParameters.filter.length; ++i )
 		{
-			inParameters.filter[i].Apply( noise, inParameters );
+			if( null !== inParameters.filter[i] )
+				inParameters.filter[i].Apply( noise, inParameters );
 		}
 		
 		return noise;

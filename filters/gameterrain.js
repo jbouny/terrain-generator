@@ -2,14 +2,9 @@ var GAMETERRAIN_FILTER =
 {
 	Apply: function( inCanvas, inParameters )
 	{
-		
 		var context = inCanvas.getContext( "2d" );
 
 		context.beginPath();
-		
-		/*context.fillStyle = "#000";
-		context.rect( 0, 0, inCanvas.width, inCanvas.height );
-		context.fill();*/
 		
 		// Apply gradient to get a shape for a potential game
 		var gradient = context.createLinearGradient( inCanvas.width, 0, 0, 0 );
