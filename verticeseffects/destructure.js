@@ -10,7 +10,13 @@ var DESTRUCTURE_EFFECT =
 			
 		for( var i = 0; i < positions.length; i++ )
 		{
-			positions[i] += ( inParameters.alea.Random() - 0.5 ) * densityWidth * param;
+			if (i % 3 == 0) {
+        positions[i] += (inParameters.alea.Random() - 0.5) * densityWidth * param;
+      } else if (i % 3 == 1) {
+        positions[i] += (inParameters.alea.Random() - 0.5) * densityDepth * param;
+      } else if (i % 3 == 2) {
+        positions[i] += (inParameters.alea.Random() - 0.5) * densityHeight * param;
+      }
 		}
 	},
 	
